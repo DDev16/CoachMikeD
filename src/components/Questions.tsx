@@ -28,6 +28,7 @@ interface StepProps {
     formData: FormData;
 }
 
+
 // Button component for reuse
 const Button: React.FC<{
     onClick: () => void;
@@ -72,61 +73,68 @@ const NavButton: React.FC<{
         {direction === 'next' && <ChevronRight className="w-4 h-4" />}
     </button>
 );
-
-const TimezoneStep: React.FC<StepProps> = ({ onNext, updateFields, formData }) => (
+const GoalStep: React.FC<StepProps> = ({ onNext, updateFields, formData }) => (
     <div className="space-y-6">
-        <h2 className="text-2xl text-center mb-8">Which timezone are you in?</h2>
-        <div className="grid grid-cols-2 gap-4">
-            {["Eastern", "Central", "Mountain", "Pacific"].map((zone) => (
+        <h2 className="text-2xl text-center mb-8">How can I help you?</h2>
+        <div className="grid grid-cols-1 gap-4">
+            {["Weight loss", "Build muscle", "Balanced lifestyle"].map((goal) => (
                 <Button
-                    key={zone}
+                    key={goal}
                     onClick={() => {
-                        updateFields({ timezone: zone });
+                        updateFields({ goal });
                         onNext();
                     }}
-                    isSelected={formData.timezone === zone}
+                    isSelected={formData.goal === goal}
                 >
-                    {zone}
+                    {goal}
                 </Button>
             ))}
         </div>
-        <Button
-            onClick={() => {
-                updateFields({ timezone: "Other" });
-                onNext();
-            }}
-            isSelected={formData.timezone === "Other"}
-            className="w-full"
-        >
-            Other
-        </Button>
     </div>
 );
 
-const ContactInfoStep: React.FC<StepProps> = ({ onNext, onBack, updateFields, formData }) => (
+const GenderStep: React.FC<StepProps> = ({ onNext, onBack, updateFields, formData }) => (
     <div className="space-y-6">
-        <h2 className="text-2xl text-center mb-8">Contact Information</h2>
-        <div className="space-y-4">
-            {[
-                { key: 'fullName', placeholder: 'Your full name', type: 'text' },
-                { key: 'email', placeholder: 'Your email', type: 'email' },
-                { key: 'phone', placeholder: 'Your phone number', type: 'tel' },
-                { key: 'instagramHandle', placeholder: 'Your Instagram handle', type: 'text' },
-                { key: 'occupation', placeholder: 'Occupation', type: 'text' },
-            ].map(({ key, placeholder, type }) => (
-                <input
-                    key={key}
-                    type={type}
-                    placeholder={placeholder}
-                    value={formData[key as keyof FormData] as string}
-                    onChange={(e) => updateFields({ [key]: e.target.value })}
-                    className="w-full px-4 py-3 bg-white/10 border border-slate-300/30 text-white placeholder-slate-400 focus:outline-none focus:border-white transition-colors"
-                />
+        <h2 className="text-2xl text-center mb-8">How do you identify?</h2>
+        <div className="grid grid-cols-3 gap-4">
+            {["Female", "Male", "Non-binary"].map((gender) => (
+                <Button
+                    key={gender}
+                    onClick={() => {
+                        updateFields({ gender });
+                        onNext();
+                    }}
+                    isSelected={formData.gender === gender}
+                >
+                    {gender}
+                </Button>
             ))}
         </div>
-        <div className="flex space-x-4 pt-4">
+        <div className="flex justify-center pt-4">
             <NavButton onClick={onBack} direction="back" />
-            <NavButton onClick={onNext} direction="next" />
+        </div>
+    </div>
+);
+
+const AgeStep: React.FC<StepProps> = ({ onNext, onBack, updateFields, formData }) => (
+    <div className="space-y-6">
+        <h2 className="text-2xl text-center mb-8">I am</h2>
+        <div className="grid grid-cols-2 gap-4">
+            {["18-25", "26-35", "36-40", "40+"].map((range) => (
+                <Button
+                    key={range}
+                    onClick={() => {
+                        updateFields({ ageRange: range });
+                        onNext();
+                    }}
+                    isSelected={formData.ageRange === range}
+                >
+                    {range}
+                </Button>
+            ))}
+        </div>
+        <div className="flex justify-center pt-4">
+            <NavButton onClick={onBack} direction="back" />
         </div>
     </div>
 );
@@ -189,81 +197,63 @@ const MotivationStep: React.FC<StepProps> = ({ onNext, onBack, updateFields, for
     </div>
 );
 
-const AgeStep: React.FC<StepProps> = ({ onNext, onBack, updateFields, formData }) => (
+const TimezoneStep: React.FC<StepProps> = ({ onNext, updateFields, formData }) => (
     <div className="space-y-6">
-        <h2 className="text-2xl text-center mb-8">I am</h2>
+        <h2 className="text-2xl text-center mb-8">Which timezone are you in?</h2>
         <div className="grid grid-cols-2 gap-4">
-            {["18-25", "26-35", "36-40", "40+"].map((range) => (
+            {["Eastern", "Central", "Mountain", "Pacific"].map((zone) => (
                 <Button
-                    key={range}
+                    key={zone}
                     onClick={() => {
-                        updateFields({ ageRange: range });
+                        updateFields({ timezone: zone });
                         onNext();
                     }}
-                    isSelected={formData.ageRange === range}
+                    isSelected={formData.timezone === zone}
                 >
-                    {range}
+                    {zone}
                 </Button>
             ))}
         </div>
-        <div className="flex justify-center pt-4">
-            <NavButton onClick={onBack} direction="back" />
-        </div>
+        <Button
+            onClick={() => {
+                updateFields({ timezone: "Other" });
+                onNext();
+            }}
+            isSelected={formData.timezone === "Other"}
+            className="w-full"
+        >
+            Other
+        </Button>
     </div>
 );
 
-const GenderStep: React.FC<StepProps> = ({ onNext, onBack, updateFields, formData }) => (
+const ContactInfoStep: React.FC<StepProps> = ({ onNext, onBack, updateFields, formData }) => (
     <div className="space-y-6">
-        <h2 className="text-2xl text-center mb-8">How do you identify?</h2>
-        <div className="grid grid-cols-3 gap-4">
-            {["Female", "Male", "Non-binary"].map((gender) => (
-                <Button
-                    key={gender}
-                    onClick={() => {
-                        updateFields({ gender });
-                        onNext();
-                    }}
-                    isSelected={formData.gender === gender}
-                >
-                    {gender}
-                </Button>
+        <h2 className="text-2xl text-center mb-8">Contact Information</h2>
+        <div className="space-y-4">
+            {[
+                { key: 'fullName', placeholder: 'Your full name', type: 'text' },
+                { key: 'email', placeholder: 'Your email', type: 'email' },
+                { key: 'phone', placeholder: 'Your phone number', type: 'tel' },
+                { key: 'instagramHandle', placeholder: 'Your Instagram handle', type: 'text' },
+                { key: 'occupation', placeholder: 'Occupation', type: 'text' },
+            ].map(({ key, placeholder, type }) => (
+                <input
+                    key={key}
+                    type={type}
+                    placeholder={placeholder}
+                    value={formData[key as keyof FormData] as string}
+                    onChange={(e) => updateFields({ [key]: e.target.value })}
+                    className="w-full px-4 py-3 bg-white/10 border border-slate-300/30 text-white placeholder-slate-400 focus:outline-none focus:border-white transition-colors"
+                />
             ))}
         </div>
-        <div className="flex justify-center pt-4">
+        <div className="flex space-x-4 pt-4">
             <NavButton onClick={onBack} direction="back" />
+            <NavButton onClick={onNext} direction="next" />
         </div>
     </div>
 );
-
-const GoalStep: React.FC<StepProps> = ({ onBack, updateFields, formData }) => {
-    const handleSubmit = () => {
-        // Handle form submission here
-        console.log('Form submitted:', formData);
-    };
-
-    return (
-        <div className="space-y-6">
-            <h2 className="text-2xl text-center mb-8">How can I help you?</h2>
-            <div className="grid grid-cols-1 gap-4">
-                {["Weight loss", "Build muscle", "Balanced lifestyle"].map((goal) => (
-                    <Button
-                        key={goal}
-                        onClick={() => {
-                            updateFields({ goal });
-                            handleSubmit();
-                        }}
-                        isSelected={formData.goal === goal}
-                    >
-                        {goal}
-                    </Button>
-                ))}
-            </div>
-            <div className="flex justify-center pt-4">
-                <NavButton onClick={onBack} direction="back" />
-            </div>
-        </div>
-    );
-};
 
 const Questionnaire = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -305,21 +295,21 @@ const Questionnaire = () => {
 
         switch (currentStep) {
             case 1:
-                return <TimezoneStep {...props} />;
-            case 2:
-                return <ContactInfoStep {...props} />;
-            case 3:
-                return <InvestmentStep {...props} />;
-            case 4:
-                return <WhyCoachStep {...props} />;
-            case 5:
-                return <MotivationStep {...props} />;
-            case 6:
-                return <AgeStep {...props} />;
-            case 7:
-                return <GenderStep {...props} />;
-            case 8:
                 return <GoalStep {...props} />;
+            case 2:
+                return <GenderStep {...props} />;
+            case 3:
+                return <AgeStep {...props} />;
+            case 4:
+                return <InvestmentStep {...props} />;
+            case 5:
+                return <WhyCoachStep {...props} />;
+            case 6:
+                return <MotivationStep {...props} />;
+            case 7:
+                return <TimezoneStep {...props} />;
+            case 8:
+                return <ContactInfoStep {...props} />;
             default:
                 return null;
         }
@@ -327,10 +317,6 @@ const Questionnaire = () => {
 
     return (
         <AuroraBackground>
-
-
-
-
             <div className="absolute top-0 left-0 right-0">
                 <div className="h-1 bg-slate-300/20">
                     <div
@@ -343,12 +329,13 @@ const Questionnaire = () => {
             <div className="relative z-10 max-w-2xl mx-auto px-4 pt-16 pb-8">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold mb-2">ELITE FITNESS COACHING</h1>
+                    <h2 className="text-2xl text-slate-300 mb-4">How can I help you?</h2>
+
                     <p className="text-slate-300">mindset • nutrition • fitness</p>
                 </div>
 
                 {renderStep()}
             </div>
-
         </AuroraBackground>
     );
 };
