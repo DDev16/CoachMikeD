@@ -46,11 +46,6 @@ const HeroSection = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-transparent z-10" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/30 z-10" />
 
-            {/* Animated pattern overlay */}
-            <div className="absolute inset-0 opacity-30 z-5">
-                <div className="absolute inset-0 bg-[url('/assets/pattern.png')] bg-repeat opacity-10" />
-            </div>
-
             {/* Main image with parallax effect */}
             <motion.div
                 initial={{ scale: 1.1, opacity: 0 }}
