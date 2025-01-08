@@ -146,44 +146,57 @@ const TransformationCard: React.FC<TransformationCardProps> = ({ transformation,
             {isModalOpen && (
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4"
-                    onClick={closeModal}
+                    onClick={closeModal} // Clicking outside the modal will close it
                 >
                     <div
-                        className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 bg-black p-8 rounded-lg"
-                        onClick={(e) => e.stopPropagation()}
+                        className="relative max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-4 bg-black p-4 md:p-8 rounded-lg"
+                        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
                     >
-                        <div className="relative h-[600px]">
+                        {/* Close Button */}
+                        <button
+                            className="absolute top-4 right-4 bg-white text-black p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white z-10"
+                            onClick={closeModal}
+                        >
+                            ✕
+                        </button>
+
+                        {/* Before Image */}
+                        <div className="relative h-[300px] md:h-[600px]">
                             <Image
                                 src={transformation.beforeImage}
-                                alt={`${transformation.name}&apos;s Before Image`}
+                                alt={`${transformation.name}'s Before Image`}
                                 fill
-                                className="object-cover"
+                                className="object-cover rounded-md"
                                 unoptimized={true}
                             />
-                            <div className="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded-sm text-white">
+                            <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-black/70 px-2 py-1 md:px-3 md:py-1 rounded-sm text-white text-xs md:text-base">
                                 Before
                             </div>
                         </div>
-                        <div className="relative h-[600px]">
+
+                        {/* After Image */}
+                        <div className="relative h-[300px] md:h-[600px]">
                             <Image
                                 src={transformation.afterImage}
-                                alt={`${transformation.name}&apos;s After Image`}
+                                alt={`${transformation.name}'s After Image`}
                                 fill
-                                className="object-cover"
+                                className="object-cover rounded-md"
                                 unoptimized={true}
                             />
-                            <div className="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded-sm text-white">
+                            <div className="absolute top-2 left-2 md:top-4 md:left-4 bg-black/70 px-2 py-1 md:px-3 md:py-1 rounded-sm text-white text-xs md:text-base">
                                 After
                             </div>
                         </div>
-                        <div className="md:col-span-2 text-white text-center">
-                            <h3 className="text-3xl font-bold mb-2">{transformation.name}</h3>
-                            <p className="text-slate-300 mb-4">{transformation.duration} Transformation</p>
-                            <div className="flex justify-center space-x-8 mb-4">
+
+                        {/* Transformation Details */}
+                        <div className="text-white text-center md:col-span-2">
+                            <h3 className="text-xl md:text-3xl font-bold mb-2">{transformation.name}</h3>
+                            <p className="text-slate-300 text-sm md:text-base mb-4">{transformation.duration} Transformation</p>
+                            <div className="flex flex-wrap justify-center space-x-4 space-y-2 mb-4">
                                 {Object.entries(transformation.stats).map(([key, value]) => (
                                     <div key={key} className="text-center">
-                                        <p className="text-2xl font-bold text-white">{value}</p>
-                                        <p className="text-sm text-slate-300">
+                                        <p className="text-lg md:text-2xl font-bold text-white">{value}</p>
+                                        <p className="text-xs md:text-sm text-slate-300">
                                             {key === 'weightLost' ? 'Weight Lost' :
                                                 key === 'bodyFat' ? 'Body Fat' :
                                                     'Muscle Gain'}
@@ -191,19 +204,19 @@ const TransformationCard: React.FC<TransformationCardProps> = ({ transformation,
                                     </div>
                                 ))}
                             </div>
-                            <div className="flex justify-center items-center space-x-2 text-yellow-400">
+                            <div className="flex justify-center items-center space-x-1 md:space-x-2 text-yellow-400">
                                 {[...Array(5)].map((_, i) => (
-                                    <Star key={i} className="w-6 h-6 fill-current" />
+                                    <Star key={i} className="w-4 h-4 md:w-6 md:h-6 fill-current" />
                                 ))}
                             </div>
-                            <div className="flex items-center justify-center mt-4">
-                                <Quote className="w-8 h-8 mr-4 text-slate-400" />
-                                <p className="text-lg italic text-slate-300 max-w-2xl">
+                            <div className="flex flex-col md:flex-row items-center justify-center mt-4">
+                                <Quote className="w-6 h-6 md:w-8 md:h-8 mr-0 md:mr-4 text-slate-400" />
+                                <p className="text-sm md:text-lg italic text-slate-300 max-w-md">
                                     &ldquo;{transformation.testimonial}&rdquo;
                                 </p>
                             </div>
                             {transformation.location && (
-                                <p className="text-slate-400 mt-4">
+                                <p className="text-slate-400 mt-4 text-sm md:text-base">
                                     Location: {transformation.location}
                                 </p>
                             )}
@@ -211,6 +224,7 @@ const TransformationCard: React.FC<TransformationCardProps> = ({ transformation,
                     </div>
                 </div>
             )}
+
         </>
     );
 };
